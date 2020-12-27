@@ -9,4 +9,5 @@ class Question extends Model
 {
     use HasFactory;
     protected $table = 'klausimas';
+    protected $fillable = ['kategorija'];
 }

@@ -22,7 +22,7 @@
 
                 <a class="project-meta">
                     <h5 class="title">Priklauso {{ \App\Http\Helpers::countQuestionsInCategory($category->id) }} klausimų</h5>
-                    <span class="right"><a href="{{route('categories.select')}}"><button class="btn btn-parimary">Prsikirti</button></a></span>
+                    <span class="right"><a href="{{route('categories.select', $category->id)}}"><button class="btn btn-parimary">Prsikirti</button></a></span>
                 </a>
 
             </article><!-- end .one-fourth (Not the end) -->

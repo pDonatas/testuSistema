@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" href="{{asset('css/audioplayerv1.min.css')}}" media="screen" />
     <!--<![endif]-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kleimaj/multiselect.js@1.0.8/css/style.min.css">
 
     <!--[if lte IE 6]>
     <link rel="stylesheet" href="//universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
@@ -122,6 +123,7 @@
 <script src="{{asset('js/jquery.cycle.all.min.js')}}"></script>
 <script src="{{asset('js/jquery.touchSwipe.min.js')}}"></script>
 <!--<![endif]-->
+<script src="{{asset('js/multiselect.js')}}"></script>
 @yield('js')
 </body>
 </html>

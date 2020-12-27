@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\CategoryRepository;
+use App\Http\Repositories\QuestionRepository;
 use App\Models\Category;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    protected CategoryRepository $categoryRepo;
+    public function __construct(CategoryRepository $categoryRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -90,6 +99,24 @@ class CategoryController extends Controller
 
     public function select($id)
     {
+        $questions = Question::all();
+        return view('categories.select', [
+            'questions' => $questions,
+            'id' => $id
+        ]);
+    }
 
+    public function setQuestions(Request $request, $id)
+    {
+        $selected = explode(',', $request->only('selected')['selected']);
+        $this->categoryRepo->remove($id);
+        foreach($selected as $item) {
+            $question = Question::find($item);
+            $question->update([
+                'kategorija' => $id
+            ]);
+        }
+
+        return redirect(route('categories.index'));
     }
 }

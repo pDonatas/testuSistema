@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function() {
         Route::get('tests/showTest/{test}/{user}', [TestsController::class, 'showUserTest'])->name('showUserTest');
         //Kategorijos
         Route::resource('categories', CategoryController::class);
+        Route::get('categories/select/{id}', [CategoryController::class, 'select'])->name('categories.select');
+        Route::post('categories/select/{id}', [CategoryController::class, 'setQuestions'])->name('categories.setQuestions');
     });
     Route::get('/', [HomeController::class, 'index']);
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');

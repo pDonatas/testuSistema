@@ -158,4 +158,9 @@ class QuestionRepository
         return $match;
     }
 
+    public function removeCategories($id)
+    {
+
+    }
+
 }
