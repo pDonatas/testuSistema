@@ -26,13 +26,13 @@
                             <p>Studento atsakymas: Neatsakyta</p>
                         @endif
 
-                        @if(count($question['correctAnswers']) > 0)
-                            @foreach($question['answers'] as $answer)
+                        @foreach($question['correctAnswers'] as $answer)
+                            @if (getType($answer) === "object")
                                 <p>Teisingas atsakymas: {{$answer->pavadinimas}}</p>
-                            @endforeach
-                        @else
-                            <p>Teisingas atsakymas: Klausimas atviras</p>
-                        @endif
+                            @else
+                                <p>Teisingas atsakymas: {{$answer}}</p>
+                            @endif
+                        @endforeach
                         <p>Gautas balas: {{$question['score']}}</p>
 
                     </div><!-- end .entry-body -->

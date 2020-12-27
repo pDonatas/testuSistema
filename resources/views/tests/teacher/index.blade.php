@@ -2,7 +2,7 @@
 @section('content')
     <header class="page-header">
 
-        <h1 class="page-title">Sukurti testai</h1>
+        <h1 class="page-title">Sukurti testai </h1>
     </header><!-- end .page-header -->
 
     <section id="portfolio-items" class="clearfix">

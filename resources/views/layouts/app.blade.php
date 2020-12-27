@@ -63,6 +63,7 @@
                     <ul>
                         <li><a href="{{route('tests.create')}}">Kurti testą</a></li>
                         <li><a href="/tests/all">Peržiūrėti sukurtus testus</a></li>
+                        <li><a href="{{route('categories.index')}}">Kategorijų valdymas</a></li>
                     </ul>
                 @else
                     <ul>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ Route::middleware('auth')->group(function() {
         Route::get('tests/all', [TestsController::class, 'show'])->name('tests.all');
         Route::get('tests/info/{id}', [TestsController::class, 'summary'])->name('showTestInfo');
         Route::get('tests/showTest/{test}/{user}', [TestsController::class, 'showUserTest'])->name('showUserTest');
+        //Kategorijos
+        Route::resource('categories', CategoryController::class);
     });
     Route::get('/', [HomeController::class, 'index']);
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');

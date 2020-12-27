@@ -3688,3 +3688,13 @@ input.placeholder, textarea.placeholder { color: #b0b0b0; }
 .full-width {
     width: 100%;
 }
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.right {
+    float: right !important;
+}

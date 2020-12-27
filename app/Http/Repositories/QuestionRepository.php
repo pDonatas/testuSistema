@@ -112,28 +112,26 @@ class QuestionRepository
         return $data;
     }
 
-    private function countQuestionScore(array $studentAnswers, array $correctAnswers, $question)
+    public function countQuestionScore(array $studentAnswers, array $correctAnswers, $question)
     {
-        if ($correctAnswers == $studentAnswers) { // Viskas sutampa zjbs
+        if (!empty($studentAnswers) && $correctAnswers == $studentAnswers) { // Viskas sutampa zjbs
             return $question->balas;
         } else {
             $correct = 0;
             foreach($studentAnswers as $sAnswer) {
                 foreach ($correctAnswers as $cAnswer) {
-                    print_r($question->atsakymoTipas);
                     if ($question->atsakymoTipas != 3) {
                         if ($sAnswer == $cAnswer) {
                             $correct++;
                         }
                     } else {
-                        dd("Iejo");
                         if ($this->countSameWords($sAnswer, $cAnswer) >= 3) {
                             $correct++;
                         }
                     }
                 }
             }
-            if ($correct == count($correctAnswers)) {
+            if ($correct != 0 && $correct == count($correctAnswers)) {
                 return $question->balas;
             }
         }
