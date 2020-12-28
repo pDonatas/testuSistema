@@ -41,7 +41,7 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -49,6 +49,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->fill($data);
         $category->save();
+
         return redirect(route('categories.index'));
     }
 
@@ -67,11 +68,11 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.update', compact('category'));
     }
 
     /**
@@ -79,22 +80,27 @@ class CategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->only('pavadinimas'));
+
+        return redirect(route('categories.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function destroy(Category $category)
     {
-        //
+        $this->categoryRepo->remove($category->id);
+        $category->delete();
+
+        return redirect(route('categories.index'));
     }
 
     public function select($id)

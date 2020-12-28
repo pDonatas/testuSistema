@@ -7,9 +7,8 @@
             <span class="right"><a href="{{route('categories.create')}}"><button class="btn btn-parimary">Sukurti</button></a></span>
         </h1>
     </header><!-- end .page-header -->
-
+    @foreach($categories as $category)
     <section id="portfolio-items" class="clearfix">
-        @foreach($categories as $category)
             <article class="one-fourth">
 
                 <a class="project-meta">
@@ -36,12 +35,15 @@
             </article><!-- end .one-fourth (Shift) -->
 
             <article class="one-fourth">
-
-                <a href="{{route('categories.destroy', $category->id)}}" class="project-meta">
-                    <h5 class="title">Ištrinti</h5>
-                </a>
+                <form method="post" action="{{route('categories.destroy', $category)}}">
+                    @csrf
+                    @method("DELETE")
+                    <a class="project-meta">
+                        <button type="submit">Ištrinti</button>
+                    </a>
+                </form>
 
             </article><!-- end .one-fourth (Shift) -->
-        @endforeach
     </section><!-- end #portfolio-items -->
+    @endforeach
 @endsection
