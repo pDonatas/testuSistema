@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\QuestionRepository;
 use App\Http\Repositories\TestRepository;
+use App\Models\Category;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +94,21 @@ class TestsController extends Controller
 
     public function create()
     {
-        return view('tests.teacher.create');
+        $categories = Category::all();
+        return view('tests.teacher.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $test = new Test();
+        $test->fill([
+            'pavadinimas' => $request->get('pavadinimas'),
+            'destytojas' => $request->get('destytojas'),
+            'category' => implode(",", $request->get("category"))
+        ]);
+        $test->save();
+
+        return json_encode($test);
     }
 
 }

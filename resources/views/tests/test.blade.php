@@ -17,7 +17,8 @@
 
                     <h1 class="title">{{$question['question']->pavadinimas}}</h1>
                     @if ($question['question']->atsakymoTipas === 1 || $question['question']->atsakymoTipas === 2)
-                    <select class="full-width" name="klausimas-{{$question['question']->id}}[]" id="{{$question['question']->id}}" @if ($question['question']->atsakymoTipas === 2) multiple @endif>
+                    <select class="full-width multi" name="klausimas-{{$question['question']->id}}[]" id="{{$question['question']->id}}" @if ($question['question']->atsakymoTipas === 2) multiple @endif>
+                        <option selected disabled>Pasirinkite variantą</option>
                         @foreach($question['answers'] as $answer)
                             <option value="{{$answer->id}}">{{$answer->pavadinimas}}</option>
                         @endforeach

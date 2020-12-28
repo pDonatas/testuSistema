@@ -9,4 +9,5 @@ class Test extends Model
 {
     use HasFactory;
     protected $table = 'testas';
+    protected $fillable = ['pavadinimas', 'category', 'destytojas'];
 }

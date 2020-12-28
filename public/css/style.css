@@ -3690,7 +3690,7 @@ input.placeholder, textarea.placeholder { color: #b0b0b0; }
 }
 
 #footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
 }
