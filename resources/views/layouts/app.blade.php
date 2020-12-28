@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" href="{{asset('css/audioplayerv1.min.css')}}" media="screen" />
     <!--<![endif]-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kleimaj/multiselect.js@1.0.8/css/style.min.css">
+    <link rel="stylesheet" href="{{asset('css/multiselect.css')}}">
 
     <!--[if lte IE 6]>
     <link rel="stylesheet" href="//universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
