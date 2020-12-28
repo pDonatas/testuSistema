@@ -91,4 +91,9 @@ class TestsController extends Controller
         return view('tests.show', compact('questions'));
     }
 
+    public function create()
+    {
+        return view('tests.teacher.create');
+    }
+
 }

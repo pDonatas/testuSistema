@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Category extends Model
 {
     use HasFactory;
-    protected $table = 'klausimas';
-    protected $fillable = ['kategorija'];
+    protected $fillable = ['pavadinimas'];
 }

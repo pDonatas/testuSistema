@@ -2,12 +2,20 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\Answer;
+use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class TestRepository
 {
+    protected QuestionRepository $questionRepo;
+
+    public function __construct(QuestionRepository $questionRepository) {
+        $this->questionRepo = $questionRepository;
+    }
+
     /*
      * Funkcija, kuri grąžina vartotojo atsakytus testus
      */
