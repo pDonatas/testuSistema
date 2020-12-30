@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\QuestionRepository;
 use App\Http\Repositories\TestRepository;
 use App\Models\Category;
+use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,7 @@ class TestsController extends Controller
      */
     public function show()
     {
-        $tests = Test::all();
+        $tests = Test::orderBy('id', 'DESC')->get();
         return view('tests.teacher.index', compact('tests'));
     }
 
@@ -111,4 +112,31 @@ class TestsController extends Controller
         return json_encode($test);
     }
 
+    public function customCreate(Request $request)
+    {
+        $data = $request->get('data');
+        $testData = $request->get('test');
+
+        $test = new Test();
+        $test->fill([
+           'destytojas' => $testData['user'],
+           'pavadinimas' => $testData['name']
+        ]);
+        $test->save();
+
+        foreach($data as $item) {
+            $question = new Question();
+            $question->fill([
+                'pavadinimas' => $item['question'],
+                'balas' => $item['score'],
+                'kategorija' => $item['category'],
+                'atsakymoTipas' => $item['type']
+            ]);
+            $question->save();
+            $this->questionRepo->setAnswers($question, $item['answers'], $item['correct']);
+            $this->testRepo->setQuestion($test, $question);
+        }
+
+        return json_encode(['success' => 'Duomenys atnaujinti']);
+    }
 }

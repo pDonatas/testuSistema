@@ -73,7 +73,6 @@ const multiSelect = () => {
 
             // replace new select element with new container
             el.parentNode.replaceChild(container, el);
-            console.log($(el));
             // Update 1.0.1 input field
             input[key] = document.createElement('input');
             input[key].type = "hidden";

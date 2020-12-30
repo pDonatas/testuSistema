@@ -8,6 +8,7 @@ use App\Models\Test;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class QuestionRepository
@@ -37,7 +38,7 @@ class QuestionRepository
             ]);
         } else {
             $testQuestions = explode(",", $test->category);
-            foreach($testQuestions as $testQuestion) {
+            foreach ($testQuestions as $testQuestion) {
                 $q = Question::find($testQuestion);
                 $question = [
                     'question' => $q,
@@ -56,22 +57,24 @@ class QuestionRepository
     public function saveUserAnswers(int $questionId, array $answers, int $test)
     {
         $question = Question::find($questionId);
-        $answers = explode(",", $answers[0]);
-        foreach($answers as $answer) {
-            if ($question->atsakymoTipas == 3) {
-                DB::table('studento_atsakymai')->insert([
-                    'user_id' => Auth::id(),
-                    'question_id' => $questionId,
-                    'custom_answer' => $answer,
-                    'test_id' => $test
-                ]);
-            } else {
-                DB::table('studento_atsakymai')->insert([
-                    'user_id' => Auth::id(),
-                    'question_id' => $questionId,
-                    'selection_id' => $answer,
-                    'test_id' => $test
-                ]);
+        if ($answers[0] != null) {
+            $answers = explode(",", $answers[0]);
+            foreach ($answers as $answer) {
+                if ($question->atsakymoTipas == 3) {
+                    DB::table('studento_atsakymai')->insert([
+                        'user_id' => Auth::id(),
+                        'question_id' => $questionId,
+                        'custom_answer' => $answer,
+                        'test_id' => $test
+                    ]);
+                } else {
+                    DB::table('studento_atsakymai')->insert([
+                        'user_id' => Auth::id(),
+                        'question_id' => $questionId,
+                        'selection_id' => $answer,
+                        'test_id' => $test
+                    ]);
+                }
             }
         }
     }
@@ -91,7 +94,7 @@ class QuestionRepository
         } else {
             $testAnswers = explode(",", $test->category);
         }
-        foreach($testAnswers as $ids) {
+        foreach ($testAnswers as $ids) {
             if ($test->category != null) {
                 $questionId = $ids;
             } else {
@@ -108,7 +111,7 @@ class QuestionRepository
             $correctAnswers = [];
             $studentAnswers = [];
 
-            foreach($answers as $answer) {
+            foreach ($answers as $answer) {
                 $ans = Answer::find($answer->selection_id);
                 if ($ans == null || !$ans) {
                     $ans = $answer->custom_answer;
@@ -116,7 +119,7 @@ class QuestionRepository
                 array_push($studentAnswers, $ans);
             }
 
-            foreach($cAnswers as $answer) {
+            foreach ($cAnswers as $answer) {
                 $ans = Answer::find($answer->selection_id);
                 if ($ans == null || !$ans) {
                     $ans = $answer->custom_answer;
@@ -145,14 +148,14 @@ class QuestionRepository
             return $question->balas;
         } else {
             $correct = 0;
-            foreach($studentAnswers as $sAnswer) {
+            foreach ($studentAnswers as $sAnswer) {
                 foreach ($correctAnswers as $cAnswer) {
                     if ($question->atsakymoTipas != 3) {
                         if ($sAnswer == $cAnswer) {
                             $correct++;
                         }
                     } else {
-                        if ($this->countSameWords($sAnswer, $cAnswer) >= 3) {
+                        if ($this->countSameWords($sAnswer, $cAnswer) >= 3 || $this->countSameWords($sAnswer, $cAnswer) == count(explode(' ', $sAnswer))) {
                             $correct++;
                         }
                     }
@@ -176,8 +179,8 @@ class QuestionRepository
 
         $match = 0;
 
-        foreach($studentWords as $studentWord) {
-            foreach($correctWords as $correctWord) {
+        foreach ($studentWords as $studentWord) {
+            foreach ($correctWords as $correctWord) {
                 if ($studentWord == $correctWord) $match++;
             }
         }
@@ -188,6 +191,46 @@ class QuestionRepository
     public function removeCategories($id)
     {
 
+    }
+
+    public function setAnswers(Question $question, $answers, $correct)
+    {
+        $now = date("Y-m-d H:i:s");
+        if ($answers !== null) {
+            $answers = explode(';', $answers);
+            foreach ($answers as $answer) {
+                DB::table('pasirinkimo_variantai')->insert([
+                    'pavadinimas' => $answer,
+                    'klausimas_id' => $question->id,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ]);
+            }
+        }
+        $correct = explode(';', $correct);
+
+        foreach ($correct as $answer) {
+            if ($question->atsakymoTipas != 3) {
+                $id = DB::table('pasirinkimo_variantai')->where([
+                    'pavadinimas' => $answer,
+                    'klausimas_id' => $question->id
+                ])->select('id')->first();
+
+                DB::table('teisingi_atsakymai')->insert([
+                    'selection_id' => $id->id,
+                    'question_id' => $question->id,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ]);
+            } else {
+                DB::table('teisingi_atsakymai')->insert([
+                    'custom_answer' => $answer,
+                    'question_id' => $question->id,
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ]);
+            }
+        }
     }
 
 }
