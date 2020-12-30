@@ -7,7 +7,7 @@
 
     </header><!-- end .page-header -->
         <section id="main">
-            @foreach($questions[2]['questions'] as $question)
+            @foreach($questions[3]['questions'] as $question)
                 <article class="entry clearfix">
 
                     <div class="entry-body">
@@ -47,7 +47,7 @@
                 </div>
 
             </article><!-- end .entry -->
-            @if (count($questions[2]['questions']) > 2)
+            @if (count($questions[3]['questions']) > 2)
                 <ul class="pagination">
                     <li class="prev"><a href="#">&larr; Atgal</a></li>
                     <li class="next"><a href="#">Kita &rarr;</a></li>
@@ -68,6 +68,17 @@
             </div>
 
         </div><!-- end .widget -->
+        <div class="widget">
+
+            <h4 class="acc-trigger">
+                <a href="#">Studentas</a>
+            </h4>
+
+            <div class="acc-container">
+                <div class="content">Vardas: {{$questions[2]->vardas}}<br/>Pavardė: {{$questions[2]->pavarde}}</div>
+            </div>
+
+        </div><!-- end .widget -->
 
     </aside><!-- end #sidebar -->
     <div style="display: none" id="currentPage"></div>
@@ -81,7 +92,7 @@
 
         function pagination(init) {
             // Pagination
-            let pages = parseInt({{count($questions[2]['questions'])}}) / 2; // Items / items per page
+            let pages = parseInt({{count($questions[3]['questions'])}}) / 2; // Items / items per page
             let current = $('#currentPage').html();
             if (current == '') {
                 $('#currentPage').html(1);

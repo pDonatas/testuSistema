@@ -78,4 +78,15 @@ class TestRepository
     {
         return DB::table('testai_vartotojai')->where('test_id', $id)->get();
     }
+
+    public function setQuestion(Test $test, Question $question)
+    {
+        $now = date("Y-m-d H:i:s");
+        DB::table('testai_klausimai')->insert([
+            'test_id' => $test->id,
+            'question_id' => $question->id,
+            'created_at' => $now,
+            'updated_at' => $now
+        ]);
+    }
 }

@@ -60,17 +60,30 @@
             @auth
             <li>
                 <a href="#" data-description="">Meniu</a>
-                @if(\Illuminate\Support\Facades\Auth::user()->tipas >= 2)
+                @if(\Illuminate\Support\Facades\Auth::user()->tipas == 2)
                     <ul>
                         <li><a href="{{route('tests.create')}}">Kurti testą</a></li>
                         <li><a href="/tests/all">Peržiūrėti sukurtus testus</a></li>
                         <li><a href="{{route('categories.index')}}">Kategorijų valdymas</a></li>
+                        <li><a href="{{route('logout')}}">Atsijungti</a></li>
                     </ul>
                 @else
+                    @if (\Illuminate\Support\Facades\Auth::user()->tipas < 2)
                     <ul>
                         <li><a href="{{route('tests.index')}}">Atlikti testą</a></li>
                         <li><a href="{{route('tests.done')}}">Peržiūrėti atliktus testus</a></li>
+                        <li><a href="{{route('logout')}}">Atsijungti</a></li>
                     </ul>
+                    @else
+                        <ul>
+                            <li><a href="{{route('tests.create')}}">Kurti testą</a></li>
+                            <li><a href="/tests/all">Peržiūrėti sukurtus testus</a></li>
+                            <li><a href="{{route('categories.index')}}">Kategorijų valdymas</a></li>
+                            <li><a href="{{route('tests.index')}}">Atlikti testą</a></li>
+                            <li><a href="{{route('tests.done')}}">Peržiūrėti atliktus testus</a></li>
+                            <li><a href="{{route('logout')}}">Atsijungti</a></li>
+                        </ul>
+                    @endif
                 @endif
             </li>
             @endauth
@@ -85,32 +98,6 @@
     @yield('content')
 
 </section><!-- end #content -->
-
-<footer id="footer" class="clearfix">
-
-    <div class="container">
-
-        <div class="three-fourth">
-
-            <nav id="footer-nav" class="clearfix">
-
-                <ul>
-                    <li><a href="/">Pagrindinis</a></li>
-                </ul>
-
-            </nav><!-- end #footer-nav -->
-
-            <ul class="contact-info">
-                <li class="address">Adresas</li>
-                <li class="phone">(123) 456-7890</li>
-                <li class="email"><a>contact@companyname.com</a></li>
-            </ul><!-- end .contact-info -->
-
-        </div><!-- end .three-fourth -->
-
-    </div><!-- end .container -->
-
-</footer><!-- end #footer -->
 
 <!--[if !lte IE 6]><!-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
