@@ -37,14 +37,16 @@ class QuestionRepository
                 'questions' => $questions
             ]);
         } else {
-            $testQuestions = explode(",", $test->category);
-            foreach ($testQuestions as $testQuestion) {
-                $q = Question::find($testQuestion);
-                $question = [
-                    'question' => $q,
-                    'answers' => Answer::where('klausimas_id', $q->id)->get()
-                ];
-                array_push($questions, $question);
+            $categories = explode(",", $test->category);
+            foreach ($categories as $category) {
+                $q = Question::where('kategorija', $category)->get();
+                foreach($q as $quest) {
+                    $question = [
+                        'question' => $quest,
+                        'answers' => Answer::where('klausimas_id', $quest->id)->get()
+                    ];
+                    array_push($questions, $question);
+                }
             }
             array_push($data, [
                 'questions' => $questions
