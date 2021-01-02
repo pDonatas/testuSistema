@@ -145,10 +145,12 @@
                 '            </select>\n' +
                 '        </div><!-- end .one-half -->\n' +
                 '\n' +
+                '        <div id="cAnswers-'+current_q+'">\n' +
                 '        <h4>Parašykite galimus ataskymus (skirkite kabliataskiais)</h4>\n' +
                 '        <div class="full-width">\n' +
                 '            <textarea class="full-width" name="question_answers-'+current_q+'"></textarea>\n' +
-                '        </div><!-- end .one-half -->\n' +
+                '        </div><!-- end .one-half -->' +
+                '</div>\n' +
                 '        <h4>Parašykite teisingus ataskymus (skirkite kabliataskiais)</h4>\n' +
                 '        <div class="full-width">\n' +
                 '            <textarea class="full-width" name="question_correct_answers-'+current_q+'"></textarea>\n' +
@@ -167,13 +169,29 @@
 
             multiSelect();
             current_q++;
+            setTimeout(() => {
+                refreshEvents();
+            }, 1500);
+        }
+
+        function refreshEvents() {
+            for(let i = 1; i <= current_q; i++) {
+                console.log("EVENT");
+                $('#question_type-'+i).on('change', function() {
+                    console.log($(this).val());
+                    if ($(this).val() == 3) {
+                        $('#cAnswers-'+i).hide();
+                    } else {
+                        $('#cAnswers-'+i).show();
+                    }
+                });
+            }
         }
 
         $('#submit').on('click', function(e) {
             e.stopPropagation();
             let data = [];
             let items = parseInt(current_q) - 1;
-            console.log(items);
             for (let i = 1; i <= items; i++) {
                 let item = {
                     question: $('input[name="question-' + i + '"]').val(),
@@ -203,7 +221,6 @@
             }).error(function (e) {
                 console.error(e);
             });
-            console.log(data);
         });
     </script>
 @endsection

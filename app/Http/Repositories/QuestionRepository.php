@@ -215,13 +215,14 @@ class QuestionRepository
                     'pavadinimas' => $answer,
                     'klausimas_id' => $question->id
                 ])->select('id')->first();
-
-                DB::table('teisingi_atsakymai')->insert([
-                    'selection_id' => $id->id,
-                    'question_id' => $question->id,
-                    'created_at' => $now,
-                    'updated_at' => $now
-                ]);
+                if ($id != null) {
+                    DB::table('teisingi_atsakymai')->insert([
+                        'selection_id' => $id->id,
+                        'question_id' => $question->id,
+                        'created_at' => $now,
+                        'updated_at' => $now
+                    ]);
+                }
             } else {
                 DB::table('teisingi_atsakymai')->insert([
                     'custom_answer' => $answer,
