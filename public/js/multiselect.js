@@ -77,6 +77,7 @@ const multiSelect = () => {
             input[key] = document.createElement('input');
             input[key].type = "hidden";
             input[key].name = $(el).attr('name');
+            input[key].id = $(el).attr('name');
             // create dropdown
             const dropdown = document.createElement('div');
             dropdown.classList.add('multi__dropdown');
@@ -116,7 +117,7 @@ const multiSelect = () => {
                             container.click();
                         }
                     }
-                    input[key].value = value[key];
+                    $(input[key]).val(value[key]).trigger('change');
                     updateContainer(container, inner, map[key], opt);
                 });
                 // li.appendChild(a);
